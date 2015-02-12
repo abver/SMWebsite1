@@ -1,0 +1,186 @@
+﻿@{
+    Layout = "~/Shared/_SiteLayout.cshtml";
+    Page.Title = "Home Page";
+}
+
+<!DOCTYPE html>
+
+<style type="text/css">
+
+/*** central column on page ***/
+ div#divContainer
+ {
+ max-width: fill-available;
+ margin: 0 auto;
+ font-family: Calibri;
+ padding: 0.5em 1em 1em 1em;
+
+/* rounded corners */
+ -moz-border-radius: 10px;
+ -webkit-border-radius: 10px;
+ border-radius: 10px;
+
+/* add gradient */
+ background-color: #abeaa3;
+ background: -webkit-gradient(linear, left top, left bottom, from(#606060), to(#808080));
+ background: -moz-linear-gradient(top, #606060, #808080); 
+
+/* add box shadows */
+ -moz-box-shadow: 5px 5px 10px rgba(0,0,0,0.3);
+ -webkit-box-shadow: 5px 5px 10px rgba(0,0,0,0.3);
+ box-shadow: 5px 5px 10px rgba(0,0,0,0.3); 
+ }
+
+h1 {color:#534a4a; font-size:1.5em;}
+
+/*** sample table to demonstrate CSS3 formatting ***/
+ table.formatHTML5 {
+ width: 100%;
+ border-collapse:collapse;
+ text-align:left;
+ color: #606060;
+ }
+
+/*** table's thead section, head row style ***/
+ table.formatHTML5 thead tr td {
+border-top: solid 1px #404040;
+ background-color: #efefef
+ vertical-align:middle;
+ text-align: center;
+ padding: 0.6em;
+ font-size:0.8em;
+ font-style: italic;
+ border-bottom: solid 1px #888888;
+ }
+
+/*** table's thead section, head row style ***/
+ table.formatHTML5 thead1 tr td {
+border-top: solid 1px #404040;
+ background-color: #efefef
+ vertical-align:middle;
+ text-align: center;
+ padding: 0.6em;
+ font-size:0.8em;
+ font-style: italic;
+ border-bottom: solid 1px #888888;
+ }
+
+/*** table's thead section, coulmns header style ***/
+ table.formatHTML5 thead tr th
+ {
+       
+ text-align: left;
+ padding: 0.5em;
+ /* add gradient */
+ background-color: #808080;
+ background: -webkit-gradient(linear, left top, left bottom, from(#606060), to(#909090));
+ background: -moz-linear-gradient(top, #606060, #909090);
+ color: #dadada;
+ }
+
+/*** table's tbody section, odd rows style ***/
+ table.formatHTML5 tbody tr:nth-child(odd) {
+ background-color: #fafafa;
+ }
+
+/*** hover effect to table's tbody odd rows ***/
+ table.formatHTML5 tbody tr:nth-child(odd):hover
+ {
+ cursor:pointer;
+ /* add gradient */
+ background-color: #808080;
+ background: -webkit-gradient(linear, left top, left bottom, from(#606060), to(#909090));
+ background: -moz-linear-gradient(top, #606060, #909090);
+ color: #dadada;
+ }
+
+/*** table's tbody section, even rows style ***/
+ table.formatHTML5 tbody tr:nth-child(even) {
+ background-color: #efefef;
+ }
+
+/*** hover effect to apply to table's tbody section, even rows ***/
+ table.formatHTML5 tbody tr:nth-child(even):hover
+ {
+ cursor:pointer;
+ /* add gradient */
+ background-color: #808080;
+ background: -webkit-gradient(linear, left top, left bottom, from(#606060), to(#909090));
+ background: -moz-linear-gradient(top, #606060, #909090);
+ color: #dadada;
+ } 
+
+/*** table's tbody section, last row style ***/
+ table.formatHTML5 tbody tr:last-child {
+ border-bottom: solid 1px #404040;
+ }
+
+/*** table's tbody section, separator row pseudo-class ***/
+ table.formatHTML5 tbody tr.separator {
+ /* add gradient */
+ background-color: #808080;
+ background: -webkit-gradient(linear, left top, left bottom, from(#606060), to(#909090));
+ background: -moz-linear-gradient(top, #606060, #909090);
+ color: #dadada;
+ }
+
+/*** table's td element, all section ***/
+ table.formatHTML5 td {
+ vertical-align:middle;
+ padding: 0.5em;
+ }
+
+/*** table's tfoot section ***/
+ table.formatHTML5 tfoot{
+ text-align:center;
+ color:#303030;
+ text-shadow: 0 1px 1px rgba(255,255,255,0.3);
+ } 
+ </style>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title></title>
+
+       
+    </head>
+
+    <body>
+        <div id="divContainer">
+             <table class="formatHTML5" >
+                 <thead><h1>Announcements</h1><br></thead>
+                 
+            <tbody>
+                 <tr>
+                      <td>A planned maintenance for Email Server is scheduled on Feb 20th, 2015.</td>
+                 </tr>
+                 <tr>
+                      <td >Office will be closed on 15th Feb (saturday) for electircal repair work </td>
+                 </tr>
+            </tbody>                      
+             </table>
+        </div>
+        <br>
+        <div id="divContainer">
+
+            <table class="formatHTML5" >
+                 <thead><h1>Report Incidents</h1></thead>
+                </table>
+                <input class="m-btn" style="text-align: center"  type="button" value="Report Network Issue" onclick="window.location.href='NewTicket.cshtml'"/>  
+                   <input class="m-btn" type="submit" value="Report Printer Issue" />
+                     <br></br>   
+ 
+            <table class="formatHTML5" >
+                 <thead1><h1>New Hire Request Offering</h1></thead1>
+                </table>
+                <input class="m-btn" type="submit" value="Request for Machine"  />
+                    <input class="m-btn" type="submit" value="Request Password Reset"  />
+                    <input class="m-btn" type="submit" value="Request Access to Portal"  />
+                <br></br>
+<!--SEPARATOR ROW USED DIFFERENT STYLE-->
+ </tbody>
+            </div>
+           </body>
+    
+</html>

@@ -1,0 +1,250 @@
+﻿@{
+    Layout = "~/Shared/_SiteLayout.cshtml";
+    Page.Title = "My All Tickets";
+}
+
+   
+<!DOCTYPE html>
+<head>
+
+<meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<style type="text/css">
+
+/*** central column on page ***/
+ div#divContainer
+ {
+ max-width: fill-available;
+ margin: 0 auto;
+ font-family: Calibri;
+ padding: 0.5em 1em 1em 1em;
+
+/* rounded corners */
+ -moz-border-radius: 10px;
+ -webkit-border-radius: 10px;
+ border-radius: 10px;
+
+/* add gradient */
+ background-color: #808080;
+ background: -webkit-gradient(linear, left top, left bottom, from(#606060), to(#808080));
+ background: -moz-linear-gradient(top, #606060, #808080); 
+
+/* add box shadows */
+ -moz-box-shadow: 5px 5px 10px rgba(0,0,0,0.3);
+ -webkit-box-shadow: 5px 5px 10px rgba(0,0,0,0.3);
+ box-shadow: 5px 5px 10px rgba(0,0,0,0.3); 
+ }
+
+h1 {color:#534a4a; font-size:1.5em;}
+
+/*** sample table to demonstrate CSS3 formatting ***/
+ table.formatHTML5 {
+ width: 100%;
+ border-collapse:collapse;
+ text-align:left;
+ color: #606060;
+ }
+
+/*** table's thead section, head row style ***/
+ table.formatHTML5 thead tr td {
+border-top: solid 1px #404040;
+ background-color:gold;
+ vertical-align:middle;
+ text-align: center;
+ padding: 0.6em;
+ font-size:0.8em;
+ font-style: italic;
+ border-bottom: solid 1px #404040;
+ }
+
+/*** table's thead section, coulmns header style ***/
+ table.formatHTML5 thead tr th
+ {
+       
+ text-align: left;
+ padding: 0.5em;
+ /* add gradient */
+ background-color: #808080;
+ background: -webkit-gradient(linear, left top, left bottom, from(#606060), to(#909090));
+ background: -moz-linear-gradient(top, #606060, #909090);
+ color: #dadada;
+ }
+
+/*** table's tbody section, odd rows style ***/
+ table.formatHTML5 tbody tr:nth-child(odd) {
+ background-color: #fafafa;
+ }
+
+/*** hover effect to table's tbody odd rows ***/
+ table.formatHTML5 tbody tr:nth-child(odd):hover
+ {
+ cursor:pointer;
+ /* add gradient */
+ background-color: #808080;
+ background: -webkit-gradient(linear, left top, left bottom, from(#606060), to(#909090));
+ background: -moz-linear-gradient(top, #606060, #909090);
+ color: #dadada;
+ }
+
+/*** table's tbody section, even rows style ***/
+ table.formatHTML5 tbody tr:nth-child(even) {
+ background-color: #efefef;
+ }
+
+/*** hover effect to apply to table's tbody section, even rows ***/
+ table.formatHTML5 tbody tr:nth-child(even):hover
+ {
+ cursor:pointer;
+ /* add gradient */
+ background-color: #808080;
+ background: -webkit-gradient(linear, left top, left bottom, from(#606060), to(#909090));
+ background: -moz-linear-gradient(top, #606060, #909090);
+ color: #dadada;
+ } 
+
+/*** table's tbody section, last row style ***/
+ table.formatHTML5 tbody tr:last-child {
+ border-bottom: solid 1px #404040;
+ }
+
+/*** table's tbody section, separator row pseudo-class ***/
+ table.formatHTML5 tbody tr.separator {
+ /* add gradient */
+ background-color: #808080;
+ background: -webkit-gradient(linear, left top, left bottom, from(#606060), to(#909090));
+ background: -moz-linear-gradient(top, #606060, #909090);
+ color: #dadada;
+ }
+
+/*** table's td element, all section ***/
+ table.formatHTML5 td {
+ vertical-align:middle;
+ padding: 0.5em;
+ }
+
+/*** table's tfoot section ***/
+ table.formatHTML5 tfoot{
+ text-align:center;
+ color:#303030;
+ text-shadow: 0 1px 1px rgba(255,255,255,0.3);
+ } 
+ </style>
+
+     <script type="text/javascript">
+
+		Array.prototype.contains = function(obj) {
+		var i = this.length;
+		while (i--) {
+			if (this[i] === obj) {
+				return true;
+			}
+		}
+		return false;
+		}
+		
+        function listIncidents() {
+            var server = "http://skrisred.redmond.corp.microsoft.com/";
+            var path = "servicemodelsamples/RestService.svc/incident";
+            getAjaxReq(server+path);
+        }
+
+        function getAjaxReq(url) {
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == 4) {
+					if(xmlhttp.status == 200) {
+						var respObj = JSON.parse(xmlhttp.responseText);
+						renderIncidents(respObj);
+					}
+					else {
+						alert("Failed while getting incidents " + " Response Code:"  + xmlhttp.status + " Response:" + xmlhttp.responseText);
+					}
+                }
+            }
+            xmlhttp.open("GET", url, true);
+			xmlhttp.send();
+        }
+		
+		function renderIncidents(incidents) {
+			var incTableHtml = CreateTableView(incidents, true, ["Id","Title","Status"]);
+			var divC = document.getElementById('divContainer');
+			divC.innerHTML = incTableHtml;
+		}
+
+		function CreateTableView(objArray, enableHeader, fields) {
+		 
+			if (enableHeader === undefined) {
+				enableHeader = true; //default enable headers
+			}
+		 
+			// If the returned data is an object do nothing, else try to parse
+			var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
+		 
+			var str = '<table class="formatHTML5">';
+			 
+			// table head
+			if (enableHeader) {
+				str += '<thead><tr>';
+				for (var index in array[0]) {
+					if(fields.contains(index))
+						str += '<th scope="col">' + index + '</th>';
+				}
+				str += '</tr></thead>';
+			}
+			 
+			// table body
+			str += '<tbody>';
+			for (var i = 0; i < array.length; i++) {
+				str += (i % 2 == 0) ? '<tr class="alt">' : '<tr>';
+				for (var index in array[i]) {
+					if(fields.contains(index)) {
+						if(index == "Id") {
+							str +=  '<td><a href="EditTicket.cshtml?id='+array[i][index]+'" title="'+array[i][index]+'">'+array[i][index]+'</a></td>';
+						}
+						else {
+							str += '<td>' + array[i][index] + '</td>';
+						}
+					}
+				}
+				str += '</tr>';
+			}
+			str += '</tbody>'
+			str += '</table>';
+			return str;
+		}
+
+    </script>
+</head>
+ <body onLoad="listIncidents()">
+
+<!-- CENTTERED COLUMN ON THE PAGE-->
+ <div id="divContainer">
+
+<!--
+ <table class="formatHTML5" >
+
+ <thead>
+ <tr><td colspan=6><h1>My Tickets</h1></td></tr>
+ <tr>
+ <th>Id</th><th>Title</th><th>Status</th>
+ </tr>
+ </thead>
+
+ <tbody>
+ <tr>
+      <td><a href="~/NewTicket.cshtml?IR120" title="IR248">IR248</a></td><td> Sample Incident</td><td> Some Status</td>
+ </tr>
+ <tr>
+      <td><a href="~/NewTicket.cshtml?IR120" title="IR120">IR120</a></td><td>Another Very very big Sample Incident</td><td>Another Some Status</td>
+ </tr>
+ 
+
+
+ </tbody>
+
+ </table>
+-->
+ </div>
+ </body>
+ </html>

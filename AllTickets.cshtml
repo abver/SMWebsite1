@@ -1,0 +1,46 @@
+﻿@{
+    Layout = "~/Shared/_SiteLayout.cshtml";
+    Page.Title = "My All Tickets";
+}
+
+@{
+    var incidentHelper = new IncidentHelper();
+    var incidentList = incidentHelper.GetListOfIncidents();
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>List of Incident Created by Me</title>
+    <style>
+        table, th, td {
+            border: solid 1px #bbbbbb;
+            border-collapse: collapse;
+            padding: 2px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Small Bakery Products</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (System.Data.DataRow row in incidentList.Rows)
+            {
+                <tr>
+                    <td>@row["Id"]</td>
+                    <td>@row["Title"]</td>
+                    <td>@row["Description"]</td>
+                    <td>@row["Status"]</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>

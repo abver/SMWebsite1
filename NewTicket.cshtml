@@ -1,0 +1,150 @@
+﻿@{
+     Layout = "~/Shared/_SiteLayout.cshtml";
+    Page.Title = "Create a new Ticket";
+}
+
+@{
+    if (IsPost)
+    {
+        IncidentHelper incidentHelper = new IncidentHelper();
+        incidentHelper.CreateIncident(Request.Form["Title"], Request.Form["Description"]);
+   
+    }
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1" />
+
+    <title>Create Incident</title>
+
+    <script type="text/javascript">
+
+        function postIncident() {
+            var server = "http://skrisred.redmond.corp.microsoft.com/";
+            var path = "servicemodelsamples/RestService.svc/incident";
+
+            //("create , post data, receive result, show result");
+
+            var data = new IncidentData(document.newIncident);
+
+            postAjaxReq(server+path, JSON.stringify(data));
+
+        }
+
+        function postAjaxReq(url, data) {
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+		    if (xmlhttp.readyState == 4) {
+				if(xmlhttp.status == 200) {
+					var respObj = JSON.parse(xmlhttp.responseText);
+					if(respObj instanceof Array) {
+						respObj = respObj [0];
+					}
+					alert("New incident Id is "+respObj.Id);
+					//go to All incidents
+					window.location.href = "MyRequests";
+					
+					}else {
+						alert("Failed while createing incident " + " Response Code:"  + xmlhttp.status + " Response:" + xmlhttp.responseText);
+					}
+                }
+            }
+            xmlhttp.open("PUT", url, true);
+            xmlhttp.setRequestHeader("Content-type","application/json");
+            xmlhttp.send(data);
+        }
+
+        function IncidentData(incidentForm) {
+            this.Title = incidentForm.Title.value;
+            this.Description = incidentForm.Description.value;
+            this.Category = incidentForm.Category.value;
+            //this.Source = incidentForm.Source.value;
+            this.Impact = incidentForm.Impact.value;
+            this.Urgency = incidentForm.Urgency.value;
+            this.Priority = incidentForm.Priority.value;
+        }
+	
+	function setPriority(){
+		//determine and set prio
+		var e = document.getElementById("Impact");
+		var iVal = e.options[e.selectedIndex].value;
+
+		e = document.getElementById("Urgency");
+		var uVal = e.options[e.selectedIndex].value;
+
+		e = document.getElementById("Priority");
+		e.value = 9;//set based on what?
+	}
+    </script>
+
+</head>
+<body>
+    <form name="newIncident" method="post">
+        <fieldset>
+            <legend>Incident Details</legend>
+            <div>
+                <label for="Title">Title:</label>
+                <input type="text" id="Title" value="" />
+            </div>
+            <div>
+                <label for="Description">Description:</label>
+                <input type="text" id="Description" value="" multiple="true"/>
+            </div>
+            <div>
+                <label for="Category">Classification Category:</label>
+				<select id="Category" >
+				  <option disabled selected> </option>
+                  <option value="Email" >Email</option>
+                  <option value="Printing" >Printing</option>
+				  <option value="Other" >Other</option>
+				  <option value="Networking" >Networking</option>
+				  <option value="Software" >Software</option>
+				  <option value="Enterprise Applications" >Enterprise Applications</option>
+				  <option value="CI Overide" >CI Overide</option>
+				  <option value="Hardware" >Hardware</option>
+                </select>
+
+                <!--<label for="Source">Source:</label>
+                <select id="Source" onChange>
+                  <option value="Console" selected>Console</option>
+                  <option value="Configuration Manager (DCM)">Configuration Manager (DCM)</option>
+                  <option value="E-Mail">E-Mail</option>
+                  <option value="Phone">Phone</option>
+                  <option value="Portal">Portal</option>
+                  <option value="Operations Manager">Operations Manager</option>
+                </select>
+                -->
+            </div>
+            <div>
+                <label for="Impact">Impact:</label>
+                <select id="Impact" onChange="setPriority()">
+			<option disabled selected> </option>
+                  <option value="Low" >Low</option>
+                  <option value="Medium">Medium</option>
+                  <option value="High">High</option>
+                </select>
+
+                <label for="Urgency">Urgency:</label>
+                <select id="Urgency"  onChange="setPriority()">
+			<option disabled selected> </option>
+                  <option value="Low" >Low</option>
+                  <option value="Medium">Medium</option>
+                  <option value="High">High</option>
+                </select>
+
+
+                <label for="Priority">Priority:</label>
+                <input type="text" id="Priority" value="" disabled="true"/>
+            </div>
+			
+            <div>
+                <label>&nbsp;</label>
+                <input type="button" value="Create New Ticket" class="submit" onclick="postIncident(); return false;"/>
+            </div>
+        </fieldset>
+    </form>
+</body>
+</html>
